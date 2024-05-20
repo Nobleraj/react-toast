@@ -1,0 +1,58 @@
+.accordion {
+  display: flex;
+  margin-top: 50px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.open {
+  display: block !important;
+}
+
+
+.notification {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.success {
+  background: green;
+}
+.error {
+  background: red;
+}
+.info {
+  background: blue;
+}
+.warning {
+  background: yellow;
+  color: black;
+}
+.closeBtn {
+  cursor: pointer;
+  margin-left: 10px;
+}
+.top-right {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+.top-left {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+.bottom-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+.bottom-left {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
