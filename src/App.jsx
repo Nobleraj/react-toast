@@ -35,7 +35,7 @@ function App() {
     };
   };
 
-  const clickHandler = (data) => {
+  const clickHandler = () => {
     let myCount = count + 1;
     setCount(myCount);
     localStorage.setItem('count', myCount);
@@ -43,7 +43,7 @@ function App() {
   const myDebounceFn = debounce(clickHandler);
   const memorize = memo(myDebounceFn);
   const handler = () => {
-    memorize('a');
+    myDebounceFn();
   };
   const [menus, setMenu] = useState([
     'Cofee',
@@ -71,7 +71,7 @@ function App() {
   return (
     <>
       <div className="card">
-        <button onSubmit={handler}>count is {count}</button>
+        <button onClick={handler}>count is {count}</button>
 
         <p>Menu</p>
         <form
