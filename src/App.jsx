@@ -3,7 +3,9 @@ import Accordion from './components/Accordion';
 import faqData from './data';
 import './index.css';
 import useNotification from './components/useNotification';
+import Notes from './components/Notes';
 function App() {
+  const [notes, setNotes] = useState(faqData);
   const { NotificationCmp, triggerNotification } = useNotification('top-right');
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -161,6 +163,10 @@ function App() {
             Toast info
           </button>
         </div>
+        <div>
+        <p>Drag and Drop</p>
+        <Notes notes={notes} setNotes={(notes) => setNotes(notes)} />
+      </div>
       </div>
     </>
   );
