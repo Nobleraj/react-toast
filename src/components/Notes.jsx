@@ -6,7 +6,7 @@ export default function Notes({ notes = [], setNotes }) {
   useEffect(() => {
     const savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
     const updatedNotes = notes.map((note) => {
-      const savedNote = savedNotes.find((val) => val.id == note.id);
+      const savedNote = savedNotes.find((val) => val.id === note.id);
       if (savedNote) {
         return { ...savedNote };
       } else {
@@ -25,10 +25,11 @@ export default function Notes({ notes = [], setNotes }) {
     };
   };
   const noteRefs = useRef([]);
-  const handleDragStart = (id, e) => {
+  const handleDragStart = (note, e) => {
+    const id = note.id;
     const currentRef = noteRefs.current[id].current;
     const rect = currentRef.getBoundingClientRect();
-
+    const startPos = note.position;
     const offsetX = e.clientX - rect.left;
     const offsetY = e.clientY - rect.top;
 
@@ -46,13 +47,37 @@ export default function Notes({ notes = [], setNotes }) {
         x: finalRect.left,
         y: finalRect.top,
       };
-      const updatedNotes = notes.map((val) =>
-        val.id === id ? { ...val, position: finalPosition } : { ...val }
-      );
-      updatePosition(updatedNotes);
+      if (checkOverLap(id)) {
+        currentRef.style.left = `${startPos.x}px`;
+        currentRef.style.top = `${startPos.y}px`;
+      } else {
+        const updatedNotes = notes.map((val) =>
+          val.id === id ? { ...val, position: finalPosition } : { ...val }
+        );
+        updatePosition(updatedNotes);
+      }
     };
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
+  };
+  const checkOverLap = (id) => {
+    const currRef = noteRefs.current[id].current;
+    const currRec = currRef.getBoundingClientRect();
+    const isOverLap = notes.some((itm) => {
+      if (itm.id === id) {
+        return false;
+      }
+      const otherRef = noteRefs.current[itm.id].current;
+      const otherRec = otherRef.getBoundingClientRect();
+      const overlap = !(
+        currRec.right < otherRec.left ||
+        currRec.left > otherRec.right ||
+        currRec.bottom < otherRec.top ||
+        currRec.top > otherRec.bottom
+      );
+      return overlap;
+    });
+    return isOverLap;
   };
   const updatePosition = (updatedNotes) => {
     setNotes(updatedNotes);
@@ -71,7 +96,7 @@ export default function Notes({ notes = [], setNotes }) {
             }
             content={itm.body}
             position={itm.position}
-            onMouseDown={(e) => handleDragStart(itm.id, e)}
+            onMouseDown={(e) => handleDragStart(itm, e)}
           />
         );
       })}
