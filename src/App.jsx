@@ -4,6 +4,7 @@ import faqData from './data';
 import './index.css';
 import useNotification from './components/useNotification';
 import Notes from './components/Notes';
+import GridLight from './components/GridLight';
 function App() {
   const [notes, setNotes] = useState(faqData);
   const { NotificationCmp, triggerNotification } = useNotification('top-right');
@@ -166,6 +167,10 @@ function App() {
         <div>
         <p>Drag and Drop</p>
         <Notes notes={notes} setNotes={(notes) => setNotes(notes)} />
+      </div>
+      <div>
+        Grid Light
+        <GridLight/>
       </div>
       </div>
     </>
